@@ -15,24 +15,44 @@ const services = [
 ];
 
 const timeSlots = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
+const weekdays = ["Mån", "Tis", "Ons", "Tor", "Fre", "Lör", "Sön"];
 
-function getBookingDays() {
-  const formatter = new Intl.DateTimeFormat("sv-SE", { weekday: "short", day: "numeric", month: "short" });
-  const days: { value: string; label: string; disabled: boolean }[] = [];
-  const date = new Date();
+function toDateKey(date: Date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
 
-  while (days.length < 9) {
-    date.setDate(date.getDate() + 1);
-    const weekday = date.getDay();
-    if (weekday === 0) continue;
-    days.push({ value: date.toISOString().slice(0, 10), label: formatter.format(date), disabled: false });
+function getCalendarDays(month: Date) {
+  const firstDay = new Date(month.getFullYear(), month.getMonth(), 1);
+  const lastDay = new Date(month.getFullYear(), month.getMonth() + 1, 0);
+  const mondayOffset = (firstDay.getDay() + 6) % 7;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const bookingLimit = new Date(today);
+  bookingLimit.setDate(bookingLimit.getDate() + 60);
+  const cells: Array<{ value: string; day: number; available: boolean; closed: boolean } | null> =
+    Array.from({ length: mondayOffset }, () => null);
+
+  for (let day = 1; day <= lastDay.getDate(); day += 1) {
+    const current = new Date(month.getFullYear(), month.getMonth(), day);
+    const closed = current.getDay() === 0;
+    cells.push({
+      value: toDateKey(current),
+      day,
+      closed,
+      available: current > today && current <= bookingLimit && !closed,
+    });
   }
 
-  return days;
+  while (cells.length % 7 !== 0) cells.push(null);
+  return cells;
 }
 
 export default function BookingPage() {
-  const days = useMemo(getBookingDays, []);
+  const initialMonth = useMemo(() => {
+    const current = new Date();
+    return new Date(current.getFullYear(), current.getMonth(), 1);
+  }, []);
+  const [calendarMonth, setCalendarMonth] = useState(initialMonth);
   const [step, setStep] = useState<1 | 2>(1);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -42,7 +62,17 @@ export default function BookingPage() {
   const [bookingStage, setBookingStage] = useState<"service" | "date" | "time">("service");
   const [submitted, setSubmitted] = useState(false);
   const selectedService = services.find((service) => service.id === serviceId);
-  const selectedDay = days.find((day) => day.value === date);
+  const calendarDays = useMemo(() => getCalendarDays(calendarMonth), [calendarMonth]);
+  const monthLabel = new Intl.DateTimeFormat("sv-SE", { month: "long", year: "numeric" }).format(calendarMonth);
+  const selectedDateLabel = date
+    ? new Intl.DateTimeFormat("sv-SE", { weekday: "long", day: "numeric", month: "long" }).format(new Date(`${date}T12:00:00`))
+    : "";
+  const currentMonthIndex = initialMonth.getFullYear() * 12 + initialMonth.getMonth();
+  const visibleMonthIndex = calendarMonth.getFullYear() * 12 + calendarMonth.getMonth();
+
+  function changeMonth(direction: -1 | 1) {
+    setCalendarMonth((current) => new Date(current.getFullYear(), current.getMonth() + direction, 1));
+  }
 
   function continueToBooking(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -83,14 +113,19 @@ export default function BookingPage() {
 
         {bookingStage === "service" && <fieldset className="booking-stage-panel"><legend>Välj behandling</legend><div className="booking-service-grid">{services.map((service, index) => <label className={`booking-service ${serviceId === service.id ? "selected" : ""}`} key={service.id}><input type="radio" name="service" value={service.id} checked={serviceId === service.id} onChange={() => { setServiceId(service.id); setDate(""); setTime(""); setBookingStage("date"); }} required /><i>{String(index + 1).padStart(2, "0")}</i><span><strong>{service.name}</strong><small>{service.duration}</small></span><b>{service.price}</b><em aria-hidden="true">→</em></label>)}</div></fieldset>}
 
-        {bookingStage === "date" && <fieldset className="booking-stage-panel"><legend>Välj datum</legend><div className="booking-day-grid">{days.map((day) => <label className={`booking-day ${date === day.value ? "selected" : ""}`} key={day.value}><input type="radio" name="date" value={day.value} checked={date === day.value} onChange={() => { setDate(day.value); setTime(""); setBookingStage("time"); }} required /><span>{day.label}</span></label>)}</div></fieldset>}
+        {bookingStage === "date" && <fieldset className="booking-stage-panel"><legend>Välj datum</legend><div className="booking-calendar">
+          <div className="booking-calendar-head"><button type="button" onClick={() => changeMonth(-1)} disabled={visibleMonthIndex <= currentMonthIndex} aria-label="Föregående månad">←</button><strong>{monthLabel}</strong><button type="button" onClick={() => changeMonth(1)} disabled={visibleMonthIndex >= currentMonthIndex + 2} aria-label="Nästa månad">→</button></div>
+          <div className="booking-calendar-weekdays" aria-hidden="true">{weekdays.map((weekday) => <span key={weekday}>{weekday}</span>)}</div>
+          <div className="booking-calendar-grid">{calendarDays.map((day, index) => day ? <button type="button" className={`${date === day.value ? "selected" : ""} ${!day.available ? "unavailable" : ""}`} disabled={!day.available} aria-pressed={date === day.value} onClick={() => { setDate(day.value); setTime(""); setBookingStage("time"); }} key={day.value}><span>{day.day}</span>{day.closed && <small>Stängt</small>}</button> : <span className="empty" key={`empty-${index}`} />)}</div>
+          <div className="booking-calendar-key"><span><i /> Ledig</span><span><i /> Stängt eller passerad</span></div>
+        </div></fieldset>}
 
-        {bookingStage === "time" && <><div className="booking-date-summary"><span><small>Valt datum</small><strong>{selectedDay?.label}</strong></span><button type="button" onClick={() => { setBookingStage("date"); setTime(""); }}>Ändra datum</button></div><fieldset className="booking-stage-panel"><legend>Lediga tider</legend><div className="booking-time-grid">{timeSlots.map((slot, index) => <label className={`booking-time ${time === slot ? "selected" : ""} ${index === 2 || index === 6 ? "unavailable" : ""}`} key={slot}><input type="radio" name="time" value={slot} disabled={index === 2 || index === 6} checked={time === slot} onChange={() => setTime(slot)} required /><span>{slot}</span></label>)}</div></fieldset></>}
+        {bookingStage === "time" && <><div className="booking-date-summary"><span><small>Valt datum</small><strong>{selectedDateLabel}</strong></span><button type="button" onClick={() => { setBookingStage("date"); setTime(""); }}>Ändra datum</button></div><fieldset className="booking-stage-panel"><legend>Lediga tider</legend><div className="booking-time-grid">{timeSlots.map((slot, index) => <label className={`booking-time ${time === slot ? "selected" : ""} ${index === 2 || index === 6 ? "unavailable" : ""}`} key={slot}><input type="radio" name="time" value={slot} disabled={index === 2 || index === 6} checked={time === slot} onChange={() => setTime(slot)} required /><span>{slot}</span></label>)}</div></fieldset></>}
 
         <div className="booking-submit-row">{bookingStage === "time" && time && <button className="button booking-next" type="submit">Bekräfta bokning <span aria-hidden="true">→</span></button>}<button className="booking-back" type="button" onClick={() => bookingStage === "service" ? setStep(1) : bookingStage === "date" ? setBookingStage("service") : setBookingStage("date")}>← Tillbaka</button></div>
       </form>}
 
-      {submitted && <div className="booking-success" role="status"><p className="eyebrow">Din förfrågan</p><h2>Tack, {name.split(" ")[0]}.</h2><p>Du har valt <strong>{selectedService?.name}</strong> {selectedDay && <>den <strong>{selectedDay.label}</strong></>} klockan <strong>{time}</strong>.</p><p className="booking-demo-note">Det här är en förhandsvisning. Bokningen skickas till systemet när API-integrationen är ansluten.</p><button className="booking-back" type="button" onClick={() => { setSubmitted(false); setStep(2); }}>Ändra val</button></div>}
+      {submitted && <div className="booking-success" role="status"><p className="eyebrow">Din förfrågan</p><h2>Tack, {name.split(" ")[0]}.</h2><p>Du har valt <strong>{selectedService?.name}</strong> den <strong>{selectedDateLabel}</strong> klockan <strong>{time}</strong>.</p><p className="booking-demo-note">Det här är en förhandsvisning. Bokningen skickas till systemet när API-integrationen är ansluten.</p><button className="booking-back" type="button" onClick={() => { setSubmitted(false); setStep(2); }}>Ändra val</button></div>}
     </section>
   </main></>;
 }
