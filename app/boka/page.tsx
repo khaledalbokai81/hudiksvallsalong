@@ -1,6 +1,8 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
+import { InteractiveMap } from "../components/interactive-map";
+import { SiteFooter } from "../components/site-footer";
 import { SiteHeader } from "../components/site-header";
 
 const services = [
@@ -145,5 +147,5 @@ export default function BookingPage() {
 
       {submitted && <div className="booking-success" role="status"><p className="eyebrow">Din förfrågan</p><h2>Tack, {name.split(" ")[0]}.</h2><p>Du har valt <strong>{selectedService?.name}</strong> den <strong>{selectedDateLabel}</strong> klockan <strong>{time}</strong>.</p><p className="booking-demo-note">Det här är en förhandsvisning. Bokningen skickas till systemet när API-integrationen är ansluten.</p><button className="booking-back" type="button" onClick={() => { setSubmitted(false); setStep(2); }}>Ändra val</button></div>}
     </section>
-  </main></>;
+  </main><InteractiveMap /><SiteFooter /></>;
 }

@@ -1,0 +1,26 @@
+export function SiteFooter() {
+  return <footer id="hitta-hit">
+    <div className="footer-brand">HUDIKSVALLS<br/><em>SALONG</em></div>
+    <div>
+      <p className="eyebrow">Besök oss</p>
+      <address>Kungsgatan 14<br/>824 30 Hudiksvall</address>
+      <a href="https://maps.google.com/?q=Kungsgatan%2014%2C%20824%2030%20Hudiksvall%2C%20Sweden" target="_blank" rel="noreferrer">Visa på karta &nearr;</a>
+    </div>
+    <div>
+      <p className="eyebrow">Öppettider</p>
+      <p>Mån–fre 10:00–18:00<br/>Lör 10:00–17:00<br/>Sön stängt</p>
+    </div>
+    <div>
+      <p className="eyebrow">Kontakt</p>
+      <a href="tel:+46702564122">070–256 41 22</a>
+      <a href="https://instagram.com/b_ra_www" target="_blank" rel="noreferrer">Instagram &nearr;</a>
+    </div>
+    <div className="footer-bottom">
+      <p className="copyright">&copy; 2026 Hudiksvalls Salong. Alla rättigheter förbehållna.</p>
+      <div className="footer-social" aria-label="Sociala medier">
+        <a href="https://instagram.com/b_ra_www" target="_blank" rel="noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 21v-8h2.7l.4-3H14V8.1c0-.9.3-1.6 1.7-1.6h1.6V3.8c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8V10H9v3h2.4v8H14Z" fill="currentColor" stroke="none"/></svg></a>
+      </div>
+    </div>
+  </footer>;
+}
