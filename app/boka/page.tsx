@@ -39,6 +39,7 @@ export default function BookingPage() {
   const [serviceId, setServiceId] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const [bookingStage, setBookingStage] = useState<"service" | "date" | "time">("service");
   const [submitted, setSubmitted] = useState(false);
   const selectedService = services.find((service) => service.id === serviceId);
   const selectedDay = days.find((day) => day.value === date);
@@ -74,11 +75,17 @@ export default function BookingPage() {
       </form>}
 
       {!submitted && step === 2 && <form className="booking-form booking-selection-form" onSubmit={submitBooking}>
-        <div className="booking-form-heading"><p className="eyebrow">Steg 02</p><h2 id="booking-flow-title">Välj din<br/>tid.</h2><p>Välj behandling, datum och en tid som passar dig.</p></div>
-        <fieldset><legend>Behandling</legend><div className="booking-service-grid">{services.map((service) => <label className={`booking-service ${serviceId === service.id ? "selected" : ""}`} key={service.id}><input type="radio" name="service" value={service.id} checked={serviceId === service.id} onChange={() => setServiceId(service.id)} required /><span><strong>{service.name}</strong><small>{service.duration}</small></span><b>{service.price}</b></label>)}</div></fieldset>
-        <fieldset><legend>Datum</legend><div className="booking-day-grid">{days.map((day) => <label className={`booking-day ${date === day.value ? "selected" : ""}`} key={day.value}><input type="radio" name="date" value={day.value} checked={date === day.value} onChange={() => { setDate(day.value); setTime(""); }} required /><span>{day.label}</span></label>)}</div></fieldset>
-        <fieldset><legend>Lediga tider</legend><div className="booking-time-grid">{timeSlots.map((slot, index) => <label className={`booking-time ${time === slot ? "selected" : ""} ${index === 2 || index === 6 ? "unavailable" : ""}`} key={slot}><input type="radio" name="time" value={slot} disabled={index === 2 || index === 6} checked={time === slot} onChange={() => setTime(slot)} required /><span>{slot}</span></label>)}</div></fieldset>
-        <div className="booking-submit-row"><button className="button booking-next" type="submit">Bekräfta bokning <span aria-hidden="true">→</span></button><button className="booking-back" type="button" onClick={() => setStep(1)}>← Tillbaka</button></div>
+        <div className="booking-form-heading booking-choice-heading"><p className="eyebrow">Steg 02</p><h2 id="booking-flow-title">{bookingStage === "service" ? <>Vad vill du<br/>boka?</> : bookingStage === "date" ? <>Vilken dag<br/>passar dig?</> : <>Välj en<br/>ledig tid.</>}</h2></div>
+
+        {bookingStage !== "service" && selectedService && <div className="booking-choice-summary"><span><small>Behandling</small><strong>{selectedService.name}</strong></span><span><small>Tid & pris</small><strong>{selectedService.duration} · {selectedService.price}</strong></span><button type="button" onClick={() => { setBookingStage("service"); setDate(""); setTime(""); }}>Ändra</button></div>}
+
+        {bookingStage === "service" && <fieldset className="booking-stage-panel"><legend>Välj behandling</legend><div className="booking-service-grid">{services.map((service, index) => <label className={`booking-service ${serviceId === service.id ? "selected" : ""}`} key={service.id}><input type="radio" name="service" value={service.id} checked={serviceId === service.id} onChange={() => { setServiceId(service.id); setDate(""); setTime(""); setBookingStage("date"); }} required /><i>{String(index + 1).padStart(2, "0")}</i><span><strong>{service.name}</strong><small>{service.duration}</small></span><b>{service.price}</b><em aria-hidden="true">→</em></label>)}</div></fieldset>}
+
+        {bookingStage === "date" && <fieldset className="booking-stage-panel"><legend>Välj datum</legend><div className="booking-day-grid">{days.map((day) => <label className={`booking-day ${date === day.value ? "selected" : ""}`} key={day.value}><input type="radio" name="date" value={day.value} checked={date === day.value} onChange={() => { setDate(day.value); setTime(""); setBookingStage("time"); }} required /><span>{day.label}</span></label>)}</div></fieldset>}
+
+        {bookingStage === "time" && <><div className="booking-date-summary"><span><small>Valt datum</small><strong>{selectedDay?.label}</strong></span><button type="button" onClick={() => { setBookingStage("date"); setTime(""); }}>Ändra datum</button></div><fieldset className="booking-stage-panel"><legend>Lediga tider</legend><div className="booking-time-grid">{timeSlots.map((slot, index) => <label className={`booking-time ${time === slot ? "selected" : ""} ${index === 2 || index === 6 ? "unavailable" : ""}`} key={slot}><input type="radio" name="time" value={slot} disabled={index === 2 || index === 6} checked={time === slot} onChange={() => setTime(slot)} required /><span>{slot}</span></label>)}</div></fieldset></>}
+
+        <div className="booking-submit-row">{bookingStage === "time" && time && <button className="button booking-next" type="submit">Bekräfta bokning <span aria-hidden="true">→</span></button>}<button className="booking-back" type="button" onClick={() => bookingStage === "service" ? setStep(1) : bookingStage === "date" ? setBookingStage("service") : setBookingStage("date")}>← Tillbaka</button></div>
       </form>}
 
       {submitted && <div className="booking-success" role="status"><p className="eyebrow">Din förfrågan</p><h2>Tack, {name.split(" ")[0]}.</h2><p>Du har valt <strong>{selectedService?.name}</strong> {selectedDay && <>den <strong>{selectedDay.label}</strong></>} klockan <strong>{time}</strong>.</p><p className="booking-demo-note">Det här är en förhandsvisning. Bokningen skickas till systemet när API-integrationen är ansluten.</p><button className="booking-back" type="button" onClick={() => { setSubmitted(false); setStep(2); }}>Ändra val</button></div>}
