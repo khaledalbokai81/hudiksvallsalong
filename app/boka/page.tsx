@@ -55,9 +55,7 @@ export default function BookingPage() {
 
   return <><SiteHeader /><main className="booking-page">
     <section className="booking-page-intro">
-      <p className="eyebrow">Boka din tid</p>
       <h1>En ny look<br/><em>börjar här.</em></h1>
-      <p>Välj en behandling och tid som passar dig. Det tar bara ett par minuter.</p>
     </section>
 
     <section className="booking-flow" aria-labelledby="booking-flow-title">
