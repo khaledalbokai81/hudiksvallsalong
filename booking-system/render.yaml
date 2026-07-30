@@ -1,0 +1,90 @@
+services:
+  - type: web
+    name: booking-website-api
+    runtime: node
+    plan: starter
+    autoDeploy: true
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/ready
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: RELEASE_VERSION
+        value: 1.0.0
+      - key: APP_BASE_URL
+        sync: false
+      - key: CLIENT_ORIGIN
+        sync: false
+      - key: BUSINESS_TIMEZONE
+        value: America/New_York
+      - key: BUSINESS_OWNER_EMAIL
+        sync: false
+      - key: BUSINESS_SETTINGS_CACHE_TTL_MS
+        value: 10000
+      - key: MONGODB_URL
+        sync: false
+      - key: MONGODB_DB_NAME
+        sync: false
+      - key: MONGODB_SERVER_SELECTION_TIMEOUT_MS
+        value: 10000
+      - key: MONGODB_CONNECT_TIMEOUT_MS
+        value: 10000
+      - key: SMTP_HOST
+        value: smtp.resend.com
+      - key: SMTP_PORT
+        value: 465
+      - key: SMTP_SECURE
+        value: true
+      - key: SMTP_USER
+        value: resend
+      - key: SMTP_PASS
+        sync: false
+      - key: MAIL_FROM
+        sync: false
+      - key: REVIEW_URL
+        sync: false
+      - key: ALERTING_ENABLED
+        value: true
+      - key: ALERT_EMAIL_TO
+        sync: false
+      - key: ALERT_CHECK_INTERVAL_MS
+        value: 60000
+      - key: ALERT_COOLDOWN_MS
+        value: 1800000
+      - key: ALERT_LOOKBACK_MINUTES
+        value: 15
+      - key: AUTOMATED_EMAILS_ENABLED
+        value: true
+      - key: API_BACKGROUND_WORKERS_ENABLED
+        value: true
+      - key: EMAIL_JOB_WORKER_ENABLED
+        value: true
+      - key: RELIABILITY_CLEANUP_ENABLED
+        value: true
+      - key: RELIABILITY_CLEANUP_INTERVAL_MS
+        value: 300000
+      - key: RELIABILITY_CLEANUP_BATCH_SIZE
+        value: 100
+      - key: TRUST_PROXY
+        value: true
+      - key: REQUEST_LOG_SUCCESS_SAMPLE_RATE
+        value: 0.05
+      - key: ADMIN_PASSWORD_HASH
+        sync: false
+      - key: ADMIN_SESSION_SECRET
+        sync: false
+      - key: ADMIN_SESSION_VERSION
+        value: 1
+      - key: MONITOR_PASSWORD_HASH
+        sync: false
+      - key: MONITOR_SESSION_SECRET
+        sync: false
+      - key: MONITOR_SESSION_VERSION
+        value: 1
+      - key: MONITOR_MFA_ENABLED
+        value: true
+      - key: MONITOR_MFA_CODE_TTL_MINUTES
+        value: 10
+      - key: MONITOR_MFA_MAX_ATTEMPTS
+        value: 5

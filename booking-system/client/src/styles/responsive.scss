@@ -1,0 +1,33 @@
+@media (max-width: 760px) {
+  .hero-shell {
+    background-position: 58% center;
+  }
+
+  .lead-service-row {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-topbar,
+  .admin-panel-header {
+    flex-direction: column;
+  }
+
+  .admin-actions,
+  .admin-search {
+    width: 100%;
+  }
+
+  .admin-kpi-grid,
+  .admin-main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-list-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-list-item time {
+    text-align: left;
+  }
+}

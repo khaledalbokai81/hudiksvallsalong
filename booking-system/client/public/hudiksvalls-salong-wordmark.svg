@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 70" role="img" aria-labelledby="title">
+  <title id="title">Hudiksvalls Salong</title>
+  <g fill="#2A211C">
+    <text x="1" y="33" font-family="Georgia, 'Times New Roman', serif" font-size="35" font-weight="500" letter-spacing="-1.6">Hudiksvalls</text>
+    <path d="M2 48.5H113" stroke="#8A4B2A" stroke-width="1.5"/>
+    <circle cx="122" cy="48.5" r="1.7" fill="#8A4B2A"/>
+    <text x="136" y="58" font-family="Georgia, 'Times New Roman', serif" font-size="33" font-style="italic" font-weight="500" letter-spacing="-1.4">Salong</text>
+  </g>
+</svg>
