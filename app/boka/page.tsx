@@ -114,7 +114,7 @@ export default function BookingPage() {
       <h1>En ny look<br/><em>börjar här.</em></h1>
     </section>
 
-    <section className="booking-flow" aria-labelledby="booking-flow-title" ref={bookingFlowRef}>
+    <section className="booking-flow" aria-label="Bokningsflöde" ref={bookingFlowRef}>
       <div className="booking-steps" aria-label="Bokningssteg">
         <span className={step === 1 ? "active" : "complete"}><b>01</b> Dina uppgifter</span>
         <i aria-hidden="true" />
@@ -132,9 +132,9 @@ export default function BookingPage() {
       </form>}
 
       {!submitted && step === 2 && <form className="booking-form booking-selection-form" onSubmit={submitBooking}>
-        <div className="booking-form-heading booking-choice-heading"><p className="eyebrow">Steg 02</p><h2 id="booking-flow-title">{bookingStage === "service" ? <>Vad vill du<br/>boka?</> : bookingStage === "date" ? <>Vilken dag<br/>passar dig?</> : <>Välj en<br/>ledig tid.</>}</h2></div>
+        {bookingStage !== "time" && <div className="booking-form-heading booking-choice-heading"><p className="eyebrow">Steg 02</p><h2 id="booking-flow-title">{bookingStage === "service" ? <>Vad vill du<br/>boka?</> : <>Vilken dag<br/>passar dig?</>}</h2></div>}
 
-        {bookingStage !== "service" && selectedService && <div className="booking-choice-summary"><span><small>Behandling</small><strong>{selectedService.name}</strong></span><span><small>Tid & pris</small><strong>{selectedService.duration} · {selectedService.price}</strong></span><button type="button" onClick={() => { setBookingStage("service"); setDate(""); setTime(""); }}>Ändra</button></div>}
+        {bookingStage === "date" && selectedService && <div className="booking-choice-summary"><span><small>Behandling</small><strong>{selectedService.name}</strong></span><span><small>Tid & pris</small><strong>{selectedService.duration} · {selectedService.price}</strong></span><button type="button" onClick={() => { setBookingStage("service"); setDate(""); setTime(""); }}>Ändra</button></div>}
 
         {bookingStage === "service" && <fieldset className="booking-stage-panel"><legend>Välj behandling</legend><div className="booking-service-grid">{services.map((service, index) => <label className={`booking-service ${serviceId === service.id ? "selected" : ""}`} key={service.id}><input type="radio" name="service" value={service.id} checked={serviceId === service.id} onChange={() => { setServiceId(service.id); setDate(""); setTime(""); setBookingStage("date"); }} required /><i>{String(index + 1).padStart(2, "0")}</i><span><strong>{service.name}</strong><small>{service.duration}</small></span><b>{service.price}</b><em aria-hidden="true">→</em></label>)}</div></fieldset>}
 
@@ -145,11 +145,11 @@ export default function BookingPage() {
           <div className="booking-calendar-key"><span><i /> Ledig</span><span><i /> Stängt eller passerad</span></div>
         </div></fieldset>}
 
-        {bookingStage === "time" && <><div className="booking-date-summary"><span><small>Valt datum</small><strong>{selectedDateLabel}</strong></span><button type="button" onClick={() => { setBookingStage("date"); setTime(""); }}>Ändra datum</button></div><fieldset className="booking-stage-panel booking-time-panel"><legend>Lediga tider</legend><div className="booking-time-groups">{timeGroups.map((group) => {
+        {bookingStage === "time" && <><div className="booking-time-context"><span><small>Din bokning</small><strong>{selectedService?.name} · {selectedDateLabel}</strong></span><div><button type="button" onClick={() => { setBookingStage("service"); setDate(""); setTime(""); }}>Ändra behandling</button><button type="button" onClick={() => { setBookingStage("date"); setTime(""); }}>Ändra datum</button></div></div><fieldset className="booking-stage-panel booking-time-panel"><legend>Lediga tider</legend><div className="booking-time-groups">{timeGroups.map((group) => {
           const groupSlots = timeSlots.filter((slot) => slot.period === group.id);
           const availableCount = groupSlots.filter((slot) => slot.available).length;
           return <button type="button" className={timePeriod === group.id ? "active" : ""} onClick={() => { setTimePeriod(group.id); setTime(""); }} aria-pressed={timePeriod === group.id} key={group.id}><span><strong>{group.label}</strong><small>{group.range}</small></span><b>{availableCount} lediga</b></button>;
-        })}</div><div className="booking-time-stage"><div className="booking-time-stage-heading"><span aria-hidden="true">{timePeriod === "morning" ? "☼" : "◐"}</span><p><strong>{timePeriod === "morning" ? "En lugn start på dagen" : "En tid senare på dagen"}</strong><small>Välj den tid som passar dig bäst</small></p></div><div className="booking-time-options">{timeSlots.filter((slot) => slot.period === timePeriod).map((slot) => <button type="button" className={`booking-time-option ${time === slot.time ? "selected" : ""} ${!slot.available ? "unavailable" : ""}`} disabled={!slot.available} aria-pressed={time === slot.time} onClick={() => setTime(slot.time)} key={slot.time}><small>{slot.available ? "Ledig" : "Bokad"}</small><strong>{slot.time}</strong><span aria-hidden="true">{time === slot.time ? "✓" : ""}</span></button>)}</div></div>{time && <div className="booking-time-selection"><span aria-hidden="true">✓</span><p><small>Din valda tid</small><strong>{selectedDateLabel} kl. {time}</strong></p></div>}</fieldset></>}
+        })}</div><div className="booking-time-stage"><div className="booking-time-stage-heading"><span aria-hidden="true">{timePeriod === "morning" ? "☼" : "◐"}</span><p><strong>{timePeriod === "morning" ? "En lugn start på dagen" : "En tid senare på dagen"}</strong><small>Välj den tid som passar dig bäst</small></p></div><div className="booking-time-options">{timeSlots.filter((slot) => slot.period === timePeriod).map((slot) => <button type="button" className={`booking-time-option ${time === slot.time ? "selected" : ""} ${!slot.available ? "unavailable" : ""}`} disabled={!slot.available} aria-pressed={time === slot.time} onClick={() => setTime(slot.time)} key={slot.time}><small>{slot.available ? "Ledig" : "Bokad"}</small><strong>{slot.time}</strong><span aria-hidden="true">{time === slot.time ? "✓" : ""}</span></button>)}</div></div></fieldset></>}
 
         <div className="booking-submit-row">{bookingStage === "time" && time && <button className="button booking-next" type="submit">Bekräfta bokning <span aria-hidden="true">→</span></button>}<button className="booking-back" type="button" onClick={() => bookingStage === "service" ? setStep(1) : bookingStage === "date" ? setBookingStage("service") : setBookingStage("date")}>← Tillbaka</button></div>
       </form>}
