@@ -110,7 +110,7 @@ export default function BookingPage() {
     setSubmitted(true);
   }
 
-  return <><SiteHeader /><main className={`booking-page ${step === 1 ? "booking-page-details" : `booking-page-active ${bookingStage === "service" ? "booking-page-service" : bookingStage === "date" ? "booking-page-date" : ""}`}`}>
+  return <><SiteHeader /><main className={`booking-page ${step === 1 ? "booking-page-details" : `booking-page-active ${bookingStage === "service" ? "booking-page-service" : bookingStage === "date" ? "booking-page-date" : "booking-page-time"}`}`}>
     <section className="booking-page-intro">
       <h1>En ny look<br/><em>börjar här.</em></h1>
     </section>
