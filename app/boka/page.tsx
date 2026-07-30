@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { InteractiveMap } from "../components/interactive-map";
 import { SiteFooter } from "../components/site-footer";
 import { SiteHeader } from "../components/site-header";
@@ -63,6 +63,7 @@ function getCalendarDays(month: Date) {
 }
 
 export default function BookingPage() {
+  const bookingFlowRef = useRef<HTMLElement>(null);
   const initialMonth = useMemo(() => {
     const current = new Date();
     return new Date(current.getFullYear(), current.getMonth(), 1);
@@ -86,6 +87,14 @@ export default function BookingPage() {
   const currentMonthIndex = initialMonth.getFullYear() * 12 + initialMonth.getMonth();
   const visibleMonthIndex = calendarMonth.getFullYear() * 12 + calendarMonth.getMonth();
 
+  useEffect(() => {
+    if (step !== 2) return;
+    const frame = window.requestAnimationFrame(() => {
+      bookingFlowRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [bookingStage, step]);
+
   function changeMonth(direction: -1 | 1) {
     setCalendarMonth((current) => new Date(current.getFullYear(), current.getMonth() + direction, 1));
   }
@@ -100,12 +109,12 @@ export default function BookingPage() {
     setSubmitted(true);
   }
 
-  return <><SiteHeader /><main className="booking-page">
+  return <><SiteHeader /><main className={`booking-page ${step === 2 ? "booking-page-active" : ""}`}>
     <section className="booking-page-intro">
       <h1>En ny look<br/><em>börjar här.</em></h1>
     </section>
 
-    <section className="booking-flow" aria-labelledby="booking-flow-title">
+    <section className="booking-flow" aria-labelledby="booking-flow-title" ref={bookingFlowRef}>
       <div className="booking-steps" aria-label="Bokningssteg">
         <span className={step === 1 ? "active" : "complete"}><b>01</b> Dina uppgifter</span>
         <i aria-hidden="true" />
