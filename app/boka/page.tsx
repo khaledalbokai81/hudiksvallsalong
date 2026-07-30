@@ -14,7 +14,20 @@ const services = [
   { id: "konturtrimning", name: "Konturtrimning", price: "150 kr", duration: "20 min" },
 ];
 
-const timeSlots = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
+const timeSlots = [
+  { time: "10:00", period: "morning", available: true },
+  { time: "11:00", period: "morning", available: true },
+  { time: "12:00", period: "morning", available: false },
+  { time: "13:00", period: "afternoon", available: true },
+  { time: "14:00", period: "afternoon", available: true },
+  { time: "15:00", period: "afternoon", available: true },
+  { time: "16:00", period: "afternoon", available: false },
+  { time: "17:00", period: "afternoon", available: true },
+];
+const timeGroups = [
+  { id: "morning", label: "Förmiddag", range: "10–12" },
+  { id: "afternoon", label: "Eftermiddag", range: "13–17" },
+] as const;
 const weekdays = ["Mån", "Tis", "Ons", "Tor", "Fre", "Lör", "Sön"];
 
 function toDateKey(date: Date) {
@@ -120,7 +133,11 @@ export default function BookingPage() {
           <div className="booking-calendar-key"><span><i /> Ledig</span><span><i /> Stängt eller passerad</span></div>
         </div></fieldset>}
 
-        {bookingStage === "time" && <><div className="booking-date-summary"><span><small>Valt datum</small><strong>{selectedDateLabel}</strong></span><button type="button" onClick={() => { setBookingStage("date"); setTime(""); }}>Ändra datum</button></div><fieldset className="booking-stage-panel"><legend>Lediga tider</legend><div className="booking-time-grid">{timeSlots.map((slot, index) => <label className={`booking-time ${time === slot ? "selected" : ""} ${index === 2 || index === 6 ? "unavailable" : ""}`} key={slot}><input type="radio" name="time" value={slot} disabled={index === 2 || index === 6} checked={time === slot} onChange={() => setTime(slot)} required /><span>{slot}</span></label>)}</div></fieldset></>}
+        {bookingStage === "time" && <><div className="booking-date-summary"><span><small>Valt datum</small><strong>{selectedDateLabel}</strong></span><button type="button" onClick={() => { setBookingStage("date"); setTime(""); }}>Ändra datum</button></div><fieldset className="booking-stage-panel booking-time-panel"><legend>Lediga tider</legend><div className="booking-time-groups">{timeGroups.map((group) => {
+          const groupSlots = timeSlots.filter((slot) => slot.period === group.id);
+          const availableCount = groupSlots.filter((slot) => slot.available).length;
+          return <section className="booking-time-group" key={group.id}><div className="booking-time-group-head"><span><strong>{group.label}</strong><small>{group.range}</small></span><b>{availableCount} lediga</b></div><div className="booking-time-grid">{groupSlots.map((slot) => <button type="button" className={`booking-time ${time === slot.time ? "selected" : ""} ${!slot.available ? "unavailable" : ""}`} disabled={!slot.available} aria-pressed={time === slot.time} onClick={() => setTime(slot.time)} key={slot.time}><span><strong>{slot.time}</strong><small>{slot.available ? "Ledig" : "Bokad"}</small></span><i aria-hidden="true">{time === slot.time ? "✓" : "→"}</i></button>)}</div></section>;
+        })}</div>{time && <div className="booking-time-selection"><span aria-hidden="true">✓</span><p><small>Din valda tid</small><strong>{selectedDateLabel} kl. {time}</strong></p></div>}</fieldset></>}
 
         <div className="booking-submit-row">{bookingStage === "time" && time && <button className="button booking-next" type="submit">Bekräfta bokning <span aria-hidden="true">→</span></button>}<button className="booking-back" type="button" onClick={() => bookingStage === "service" ? setStep(1) : bookingStage === "date" ? setBookingStage("service") : setBookingStage("date")}>← Tillbaka</button></div>
       </form>}
