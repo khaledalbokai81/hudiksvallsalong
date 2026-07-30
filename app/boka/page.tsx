@@ -63,7 +63,9 @@ export default function BookingPage() {
       <div className="booking-steps" aria-label="Bokningssteg">
         <span className={step === 1 ? "active" : "complete"}><b>01</b> Dina uppgifter</span>
         <i aria-hidden="true" />
-        <span className={step === 2 ? "active" : ""}><b>02</b> Välj tid</span>
+        <span className={step === 2 && bookingStage === "service" ? "active" : step === 2 ? "complete" : ""}><b>02</b> Välj behandling</span>
+        <i aria-hidden="true" />
+        <span className={step === 2 && bookingStage !== "service" ? "active" : ""}><b>03</b> Välj tid</span>
       </div>
 
       {!submitted && step === 1 && <form className="booking-form booking-details-form" onSubmit={continueToBooking}>
