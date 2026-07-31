@@ -18,7 +18,7 @@ export function GallerySection() {
   const [slide, setSlide] = useState(0);
   useEffect(() => { const timer = window.setInterval(() => setSlide((current) => (current + 1) % slideshowImages.length), 4500); return () => window.clearInterval(timer); }, []);
   const activeSlide = slideshowImages[slide];
-  return <section className="gallery-section" aria-labelledby="gallery-title">
+  return <section className="gallery-section" aria-labelledby="gallery-title" data-reveal>
     <div className="gallery-heading"><p className="eyebrow">Galleri</p><h2 id="gallery-title">Se skillnaden<br/>i detaljerna.</h2><p>Fore och efter, foljt av glimtar fran arbetet i salongen.</p></div>
     <div className="comparison">
       <img className="comparison-image" src="/images/gallery-before.png" alt="Fore klippning" loading="lazy" />

@@ -12,7 +12,7 @@ export function SiteFooter() {
     </div>
     <div>
       <p className="eyebrow">Kontakt</p>
-      <a href="tel:+46702564122">070–256 41 22</a>
+      <a href="tel:+46720147022">072–014 70 22</a>
       <a href="https://instagram.com/b_ra_www" target="_blank" rel="noreferrer">Instagram &nearr;</a>
     </div>
     <div className="footer-bottom">

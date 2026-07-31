@@ -24,7 +24,7 @@ export function GoogleReviews() {
     return () => window.clearInterval(timer);
   }, []);
 
-  return <section className="google-reviews" id="google-reviews" aria-labelledby="google-reviews-title">
+  return <section className="google-reviews" id="google-reviews" aria-labelledby="google-reviews-title" data-reveal>
     <div className="google-reviews-heading"><p className="eyebrow">Kundrecensioner</p><h2 id="google-reviews-title">Det har sager<br/>vara kunder.</h2><p>Riktiga ord fran kunder som har valt Hudiksvalls Salong.</p></div>
     <div className="google-review-carousel" aria-live="polite">
       <div className="google-review-grid">{visibleReviews.map((review, index) => <article className="google-review-card" key={index}><div className="google-review-top"><span className={`review-avatar avatar-${review.initial}`}>{review.initial}</span><div><strong>{review.name}</strong><small>{review.ago}</small></div><span className="google-mark" aria-label="Google">G</span></div><p className="google-stars" aria-label={`${review.rating} av 5 stjarnor`}>{Array.from({ length: 5 }, (_, star) => <span className={star < review.rating ? "filled" : ""} key={star}>&#9733;</span>)}</p><p className="google-review-copy">{review.text}</p></article>)}</div>
