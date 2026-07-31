@@ -18,26 +18,73 @@
     "bookingTitle": "Kom förbi\nnär det passar.",
     "bookingText": "Vi arbetar främst med drop-in. Du kan också ringa i förväg för att boka en tid.",
     "galleryTitle": "Se skillnaden\ni detaljerna.",
-    "galleryText": "Före och efter, följt av glimtar från arbetet i salongen.",
+    "galleryText": "Före och efter, följt av glimtar från arbetet i salongen .",
     "beforeImage": "/images/gallery-before.png",
     "afterImage": "/images/gallery-after.png",
     "slides": [
-      { "src": "/images/gallery-1.png", "title": "Herrklippning med precision", "text": "Skarpa linjer och en form som sitter hela dagen." },
-      { "src": "/images/gallery-2.png", "title": "Modern herrfrisyr", "text": "En stilren klippning med en avslappnad finish." },
-      { "src": "/images/gallery-3.png", "title": "Klassisk klippning", "text": "Klassiskt hantverk med fokus på de små detaljerna." },
-      { "src": "/images/gallery-4.png", "title": "Skäggtrimning", "text": "En balanserad skäggform med rena konturer." },
-      { "src": "/images/gallery-5.png", "title": "Fade med mjuk övergång", "text": "Mjuka övergångar och en precision som syns." },
-      { "src": "/images/gallery-6.png", "title": "Salongen i Hudiksvall", "text": "En lugn plats för din stund i stolen." },
-      { "src": "/images/gallery-7.png", "title": "Styling och finish", "text": "Sista finishen som gör att helheten sitter." },
-      { "src": "/images/gallery-8.png", "title": "Välvårdad helhet", "text": "Välvårdade detaljer för en komplett look." }
+      {
+        "src": "/images/gallery-1.png",
+        "title": "Herrklippning med precision",
+        "text": "Skarpa linjer och en form som sitter hela dagen."
+      },
+      {
+        "src": "/images/gallery-2.png",
+        "title": "Modern herrfrisyr",
+        "text": "En stilren klippning med en avslappnad finish."
+      },
+      {
+        "src": "/images/gallery-3.png",
+        "title": "Klassisk klippning",
+        "text": "Klassiskt hantverk med fokus på de små detaljerna."
+      },
+      {
+        "src": "/images/gallery-4.png",
+        "title": "Skäggtrimning",
+        "text": "En balanserad skäggform med rena konturer."
+      },
+      {
+        "src": "/images/gallery-5.png",
+        "title": "Fade med mjuk övergång",
+        "text": "Mjuka övergångar och en precision som syns."
+      },
+      {
+        "src": "/images/gallery-6.png",
+        "title": "Salongen i Hudiksvall",
+        "text": "En lugn plats för din stund i stolen."
+      },
+      {
+        "src": "/images/gallery-7.png",
+        "title": "Styling och finish",
+        "text": "Sista finishen som gör att helheten sitter."
+      },
+      {
+        "src": "/images/gallery-8.png",
+        "title": "Välvårdad helhet",
+        "text": "Välvårdade detaljer för en komplett look."
+      }
     ]
   },
   "prices": [
-    { "service": "Herr", "price": "280" },
-    { "service": "Pensionärer", "price": "250" },
-    { "service": "Student", "price": "250" },
-    { "service": "Barn under 9 år", "price": "180" },
-    { "service": "Skägg", "price": "200" }
+    {
+      "service": "Herr",
+      "price": "280"
+    },
+    {
+      "service": "Pensionärer",
+      "price": "250"
+    },
+    {
+      "service": "Student",
+      "price": "250"
+    },
+    {
+      "service": "Barn under 9 år",
+      "price": "180"
+    },
+    {
+      "service": "Skägg",
+      "price": "200"
+    }
   ],
   "galleryPage": {
     "eyebrow": "Hudiksvalls Salong",
@@ -46,19 +93,52 @@
     "beforeImage": "/images/gallery-before-demo.png",
     "afterImage": "/images/gallery-after-demo.png",
     "chapters": [
-      { "title": "Klippning", "text": "Form, övergångar och detaljer som är gjorda för att hålla.", "images": [
-        { "src": "/images/gallery-2.png", "title": "Modern herrfrisyr" },
-        { "src": "/images/gallery-3.png", "title": "Klassisk klippning" },
-        { "src": "/images/gallery-5.png", "title": "Fade med mjuk övergång" }
-      ]},
-      { "title": "Skägg & finish", "text": "Rena konturer och den sista finishen som gör helheten.", "images": [
-        { "src": "/images/gallery-4.png", "title": "Skäggtrimning" },
-        { "src": "/images/gallery-7.png", "title": "Styling och finish" }
-      ]},
-      { "title": "I salongen", "text": "En lugn stund, med fokus på din stil och ditt uttryck.", "images": [
-        { "src": "/images/gallery-6.png", "title": "Salongen i Hudiksvall" },
-        { "src": "/images/gallery-8.png", "title": "Välvårdad helhet" }
-      ]}
+      {
+        "title": "Klippning",
+        "text": "Form, övergångar och detaljer som är gjorda för att hålla.",
+        "images": [
+          {
+            "src": "/images/gallery-2.png",
+            "title": "Modern herrfrisyr"
+          },
+          {
+            "src": "/images/gallery-3.png",
+            "title": "Klassisk klippning"
+          },
+          {
+            "src": "/images/gallery-5.png",
+            "title": "Fade med mjuk övergång"
+          }
+        ]
+      },
+      {
+        "title": "Skägg & finish",
+        "text": "Rena konturer och den sista finishen som gör helheten.",
+        "images": [
+          {
+            "src": "/images/gallery-4.png",
+            "title": "Skäggtrimning"
+          },
+          {
+            "src": "/images/gallery-7.png",
+            "title": "Styling och finish"
+          }
+        ]
+      },
+      {
+        "title": "I salongen",
+        "text": "En lugn stund, med fokus på din stil och ditt uttryck.",
+        "images": [
+          {
+            "src": "/images/gallery-6.png",
+            "title": "Salongen i Hudiksvall"
+          },
+          {
+            "src": "/images/gallery-8.png",
+            "title": "Välvårdad helhet"
+          }
+        ]
+      }
     ]
   }
 }
