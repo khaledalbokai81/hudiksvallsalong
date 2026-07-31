@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 const links = [
   { href: "/", label: "Om oss" },
-  { href: "/tjanster", label: "Tj\u00e4nster" },
+  { href: "/tjanster", label: "Priser" },
   { href: "/galleri", label: "Galleri" },
 ];
 
@@ -44,7 +44,7 @@ export function SiteHeader() {
         const active = pathname === link.href;
         return <a href={hrefFor(link.href)} className={active ? "active" : ""} aria-current={active ? "page" : undefined} onClick={close} key={link.href}><span>0{index + 1}</span><strong>{link.label}</strong><b>&nearr;</b></a>;
       })}</nav>
-      <div className="mobile-menu-footer"><div><small>Öppettider</small><p>Mån–fre 10–18 · Lör 10–17</p></div><a href="tel:+46720147022" onClick={close}><span>Ring 072–014 70 22</span><b>&rarr;</b></a></div>
+      <div className="mobile-menu-footer"><div><small>Öppettider</small><p>Mån–fre 10–18 · Lör 11–16 · Sön stängt</p></div><a href="tel:+46720147022" onClick={close}><span>Ring 072–014 70 22</span><b>&rarr;</b></a></div>
     </div>
   </header>;
 }

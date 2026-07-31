@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://www.parissalong.com";
+  const baseUrl = "https://www.hudiksvallsalong.com";
   return [
-    { url: baseUrl, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
-    { url: `${baseUrl}/galleri`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
-    { url: `${baseUrl}/tjanster`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: baseUrl, changeFrequency: "weekly", priority: 1 },
+    { url: `${baseUrl}/tjanster`, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/galleri`, changeFrequency: "monthly", priority: 0.7 },
   ];
 }

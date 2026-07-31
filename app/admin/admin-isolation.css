@@ -1,0 +1,238 @@
+/* Keep storefront typography rules from leaking into the admin editor. */
+.admin-login,
+.admin-shell {
+  letter-spacing: normal;
+  line-height: normal;
+}
+
+.admin-shell h1,
+.admin-shell h2,
+.admin-shell h3,
+.admin-shell p,
+.admin-shell label,
+.admin-shell input,
+.admin-shell textarea,
+.admin-shell button {
+  letter-spacing: normal;
+}
+
+.admin-shell h1,
+.admin-shell h2,
+.admin-shell h3 {
+  line-height: 1.15;
+}
+
+.admin-shell > footer > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-section-toggle {
+  display: block;
+  width: 100%;
+  padding: 0 0 24px !important;
+  background: transparent !important;
+  color: var(--admin-ink) !important;
+  text-align: left;
+  cursor: default !important;
+}
+
+.admin-section-toggle > span > strong {
+  display: block;
+  font: 500 29px/1.15 Georgia, serif;
+}
+
+.admin-section-toggle small,
+.admin-section-chevron {
+  display: none;
+}
+
+.admin-login .admin-install-button {display:flex;width:100%;min-height:50px;align-items:center;justify-content:center;gap:10px;margin-top:12px;border:1px solid var(--admin-accent);background:transparent;color:var(--admin-accent)}
+.admin-install-button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.install-guide-backdrop{position:fixed;z-index:100;inset:0;display:grid;place-items:end center;padding:12px;background:rgba(40,33,29,.66)}
+.install-guide{position:relative;width:min(480px,100%);padding:28px 20px 20px;border-radius:18px 18px 8px 8px;background:#fff;color:var(--admin-ink);box-shadow:0 -12px 50px rgba(0,0,0,.2)}
+.install-guide>p{margin:0 0 5px;color:var(--admin-accent);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.install-guide h2{margin:0 42px 22px 0;font:500 30px/1.05 Georgia,serif;letter-spacing:-.5px}
+.install-guide-close{position:absolute;top:16px;right:16px;width:36px!important;height:36px;margin:0!important;padding:0!important;border-radius:50%;background:var(--admin-paper)!important;color:var(--admin-ink)!important;font-size:25px;font-weight:400!important}
+.install-guide ol{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.install-guide li{display:grid;min-height:72px;grid-template-columns:36px 1fr auto;align-items:center;gap:12px;padding:12px;background:var(--admin-paper)}
+.install-guide li>span{display:grid;width:34px;height:34px;place-items:center;border-radius:50%;background:var(--admin-accent);color:#fff;font-weight:700}
+.install-guide li div{display:grid;gap:4px}.install-guide li strong{font-size:14px}.install-guide li small{color:#786b63;font-size:11px;line-height:1.35}.install-guide li>svg{width:24px;fill:none;stroke:var(--admin-accent);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.admin-login .install-guide-done{min-height:52px;margin-top:16px;border-radius:4px;font-size:14px}
+
+@media (min-width:761px){.admin-install-button{display:none!important}}
+
+@media (max-width: 760px) {
+  .admin-shell {
+    padding-bottom: 82px;
+  }
+
+  .admin-shell > header {
+    padding: 15px 16px;
+  }
+
+  .admin-shell header h1 {
+    font-size: 28px;
+  }
+
+  .admin-actions {
+    gap: 8px;
+  }
+
+  .admin-actions button {
+    padding: 10px 12px;
+  }
+
+  .admin-shell .admin-section {
+    margin: 10px 12px;
+    padding: 0;
+  }
+
+  .admin-section-toggle {
+    display: flex;
+    min-height: 74px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 15px 16px !important;
+    cursor: pointer !important;
+  }
+
+  .admin-section-toggle > span {
+    min-width: 0;
+  }
+
+  .admin-section-toggle > span > strong {
+    font: 600 18px/1.2 Arial, sans-serif;
+  }
+
+  .admin-section-toggle small {
+    display: block;
+    margin-top: 5px;
+    color: #786b63;
+    font-size: 11px;
+    font-weight: 400;
+  }
+
+  .admin-section-chevron {
+    display: grid;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border: 1px solid rgba(116, 61, 37, .2);
+    border-radius: 50%;
+    background: rgba(116, 61, 37, .07);
+    color: var(--admin-accent);
+    transition: transform .25s ease, background .2s ease, color .2s ease;
+  }
+
+  .admin-section-chevron svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .admin-section-chevron path {
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .admin-section.is-expanded .admin-section-chevron {
+    background: var(--admin-accent);
+    color: #fff;
+    transform: rotate(180deg);
+  }
+
+  .admin-section-content {
+    display: none;
+    padding: 4px 16px 18px;
+    border-top: 1px solid var(--admin-line);
+  }
+
+  .admin-section.is-expanded .admin-section-content {
+    display: block;
+  }
+
+  .admin-section-content .form-grid,
+  .admin-section-content .image-grid,
+  .admin-section-content .slide-copy {
+    margin-top: 14px;
+  }
+
+  .admin-image > img {
+    height: 230px;
+  }
+
+  .admin-shell > footer {
+    gap: 8px;
+    padding: 11px 12px;
+  }
+
+  .admin-shell > footer > div {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .admin-shell > footer button {
+    flex: 0 0 auto;
+    width: min(210px, 68vw);
+    min-height: 52px;
+    padding: 14px 18px;
+    font-size: 14px;
+  }
+}
+
+/* Mobile-first admin polish: large type, clear hierarchy and forgiving touch targets. */
+@media (max-width:760px){
+  .admin-login,.admin-shell{font-size:16px;background:#f4efe9}
+  .admin-login{padding:16px}
+  .admin-login form{width:100%;max-width:430px;padding:30px 22px 24px;border:0;border-radius:14px;box-shadow:0 14px 42px rgba(40,33,29,.13)}
+  .admin-login p,.admin-shell header p{margin-bottom:6px;font-size:12px;letter-spacing:1.1px}
+  .admin-login h1{margin-bottom:28px;font-size:44px;line-height:1}
+  .admin-login label span,.admin-shell label>span{font-size:14px;line-height:1.3}
+  .admin-login input,.admin-shell input,.admin-shell textarea{min-height:54px;padding:14px 15px;border:1.5px solid #cbbdb1;border-radius:8px;font-size:16px;line-height:1.4;outline:none;transition:border-color .2s,box-shadow .2s}
+  .admin-shell textarea{min-height:112px}
+  .admin-login input:focus,.admin-shell input:focus,.admin-shell textarea:focus{border-color:var(--admin-accent);box-shadow:0 0 0 4px rgba(116,61,37,.11)}
+  .admin-login>form>button{min-height:54px;border-radius:8px;font-size:16px}
+  .admin-login .admin-install-button{min-height:54px;font-size:15px}
+
+  .admin-shell{padding-bottom:94px}
+  .admin-shell>header{min-height:78px;align-items:center;padding:13px 16px;background:rgba(247,243,238,.98);box-shadow:0 3px 18px rgba(40,33,29,.07)}
+  .admin-shell header h1{max-width:220px;font:600 24px/1.05 Georgia,serif}
+  .admin-actions{margin-left:auto}
+  .admin-actions a{display:inline-flex;min-height:44px;align-items:center;padding:0 13px;border:1px solid var(--admin-accent);border-radius:7px;color:var(--admin-accent);font-size:13px;font-weight:700;text-decoration:none}
+  .admin-actions button{display:none}
+
+  .admin-status{position:sticky;z-index:9;top:78px;margin:0;padding:14px 16px;border:0;border-bottom:1px solid #d4c4b8;background:#fff3d6;color:#4c382d;font-size:14px;font-weight:700;line-height:1.4;box-shadow:0 5px 14px rgba(40,33,29,.08)}
+  .admin-status.error{margin:16px 0 0;border-radius:8px;background:#f9e3e1;color:#812e29}
+
+  .admin-shell .admin-section{overflow:hidden;margin:12px;border:1px solid #ded3ca;border-radius:12px;background:#fff;box-shadow:0 5px 17px rgba(40,33,29,.055)}
+  .admin-section-toggle{min-height:86px;padding:17px 16px!important}
+  .admin-section-toggle>span>strong{font:700 19px/1.2 Arial,sans-serif;color:#342923}
+  .admin-section-toggle small{margin-top:6px;color:#77685e;font-size:13px;line-height:1.25}
+  .admin-section-chevron{flex-basis:40px;width:40px;height:40px;background:#f5eee8}
+  .admin-section-chevron svg{width:21px;height:21px}
+  .admin-section-content{padding:8px 16px 22px;background:#fff}
+  .admin-section-content .form-grid,.admin-section-content .image-grid,.admin-section-content .slide-copy{gap:18px;margin-top:16px}
+  .admin-shell label{gap:8px}
+
+  .price-editor>div{display:grid;grid-template-columns:1fr;gap:12px;margin:0 0 18px;padding:16px;border:1px solid #ded3ca;border-radius:10px;background:#faf7f3}
+  .price-editor .remove{grid-column:auto;min-height:46px;border-radius:7px;background:#fff!important;color:#8b302b!important;border:1px solid #c87b76!important;font-size:14px}
+  .price-editor>.secondary{width:100%;min-height:52px;border-radius:8px;font-size:15px}
+
+  .admin-image{border:1px solid #d8ccc2;border-radius:10px;background:#faf7f3}
+  .admin-image>img{height:220px}
+  .admin-image>div{gap:9px;padding:15px}
+  .admin-image strong{font-size:17px}
+  .admin-image small{font-size:11px}
+  .admin-image .upload-button{display:flex!important;min-height:48px;align-items:center;justify-content:center;width:100%;margin-top:3px;border-radius:7px;font-size:15px}
+  .slide-copy>div{padding:16px;border:1px solid #ded3ca;border-radius:10px;background:#faf7f3}
+
+  .admin-shell>footer{min-height:82px;padding:12px 16px;background:#302621;box-shadow:0 -7px 24px rgba(40,33,29,.16)}
+  .admin-shell>footer>div{justify-content:center}
+  .admin-shell>footer button{width:min(280px,100%);min-height:58px;border-radius:9px;background:#9a5432;font-size:16px;letter-spacing:.1px;box-shadow:0 4px 12px rgba(0,0,0,.18)}
+  .admin-shell>footer button:disabled{opacity:.7}
+}
