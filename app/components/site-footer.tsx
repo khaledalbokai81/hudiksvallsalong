@@ -8,7 +8,7 @@ export function SiteFooter() {
     </div>
     <div>
       <p className="eyebrow">Öppettider</p>
-      <p>Mån–fre 10:00–18:00<br/>Lör 10:00–17:00<br/>Sön stängt</p>
+      <p>Mån–fre 10:00–18:00<br/>Lör 11:00–16:00<br/>Sön stängt</p>
     </div>
     <div>
       <p className="eyebrow">Kontakt</p>
