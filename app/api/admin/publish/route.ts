@@ -22,7 +22,17 @@ export async function POST(request: Request) {
     if ("conflict" in result) return NextResponse.json({ error: "Webbplatsen har ändrats sedan sidan öppnades. Ladda om adminpanelen innan du publicerar igen.", currentCommit: result.currentCommit }, { status: 409 });
     return NextResponse.json({ ok: true, commit: result.commit, message: result.alreadyPublished ? "Ändringarna var redan sparade. Vercel bygger webbplatsen." : "Sparat i en säker commit. Vercel bygger nu webbplatsen." });
   } catch (error) {
-    console.error("Admin publish failed", error instanceof Error ? error.message : error);
+    const detail = error instanceof Error ? error.message : String(error);
+    console.error("Admin publish failed", detail);
+    if (detail === "GitHub configuration is incomplete") {
+      return NextResponse.json({ error: "Publicering är inte konfigurerad. Kontrollera GITHUB_TOKEN, GITHUB_REPO_OWNER och GITHUB_REPO_NAME i Vercel och distribuera om." }, { status: 503 });
+    }
+    if (/^GitHub (401|403):/.test(detail)) {
+      return NextResponse.json({ error: "GitHub nekade publiceringen. Kontrollera att token är giltig och har behörigheten Contents: Read and write." }, { status: 503 });
+    }
+    if (/^GitHub 404:/.test(detail)) {
+      return NextResponse.json({ error: "GitHub-repot eller grenen hittades inte. Kontrollera repository owner, name och branch i Vercel." }, { status: 503 });
+    }
     return NextResponse.json({ error: "Publiceringen misslyckades tillfälligt. Ditt utkast finns kvar – försök igen." }, { status: 503 });
   }
 }

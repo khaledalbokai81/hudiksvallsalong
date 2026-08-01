@@ -10,7 +10,7 @@ const MAX_UPLOAD_BYTES = 2_800_000;
 const DRAFT_KEY = "hudik-admin-draft-v2";
 
 class AdminApiError extends Error {
-  constructor(message: string, readonly status = 0) { super(message); }
+  constructor(message: string, readonly status = 0, readonly currentCommit?: string) { super(message); }
 }
 
 async function adminRequest<T>(url: string, init: RequestInit, retries = 0): Promise<T> {
@@ -24,7 +24,11 @@ async function adminRequest<T>(url: string, init: RequestInit, retries = 0): Pro
       let result: Record<string, unknown> = {};
       try { result = text ? JSON.parse(text) as Record<string, unknown> : {}; } catch { throw new AdminApiError(response.status === 413 ? "Uppladdningen är för stor." : "Servern skickade ett oväntat svar.", response.status); }
       if (!response.ok) {
-        const error = new AdminApiError(typeof result.error === "string" ? result.error : "Förfrågan misslyckades.", response.status);
+        const error = new AdminApiError(
+          typeof result.error === "string" ? result.error : "Förfrågan misslyckades.",
+          response.status,
+          typeof result.currentCommit === "string" ? result.currentCommit : undefined,
+        );
         if (attempt < retries && [0, 502, 503, 504].includes(response.status)) { lastError = error; continue; }
         throw error;
       }
@@ -150,7 +154,7 @@ export function AdminPanel({ initialContent, initiallyAuthenticated, initialComm
         const draft = JSON.parse(saved) as { content?: SiteContent; uploads?: Upload[]; expectedCommit?: string | null; publishId?: string; savedAt?: number };
         const restoredUploads = Array.isArray(draft.uploads) ? draft.uploads : null;
         if (draft.savedAt && Date.now() - draft.savedAt < 30 * 24 * 60 * 60 * 1000 && validateSiteContent(draft.content) && restoredUploads && restoredUploads.every((upload) => upload && /^public\/images\/admin\/[a-zA-Z0-9._-]+\.(?:jpg|png|webp)$/.test(upload.path) && /^[a-f0-9]{40}$/.test(upload.sha))) {
-          setContent(draft.content); setUploads(restoredUploads); setExpectedCommit(draft.expectedCommit ?? initialCommit); setPublishId(draft.publishId || crypto.randomUUID()); setStatus("Ett lokalt utkast har återställts.");
+          setContent(draft.content); setUploads(restoredUploads); setExpectedCommit(initialCommit ?? draft.expectedCommit ?? null); setPublishId(draft.publishId || crypto.randomUUID()); setStatus("Ett lokalt utkast har återställts.");
         }
       }
     } catch { localStorage.removeItem(DRAFT_KEY); }
@@ -185,7 +189,10 @@ export function AdminPanel({ initialContent, initiallyAuthenticated, initialComm
       setStatus(result.message); setUploads([]); setPreviews({}); setExpectedCommit(result.commit); setPublishId(crypto.randomUUID()); localStorage.removeItem(DRAFT_KEY);
     } catch (error) {
       if (error instanceof AdminApiError && error.status === 401) { setAuthenticated(false); setStatus("Sessionen gick ut. Logga in igen – utkastet är sparat."); }
-      else setStatus(error instanceof Error ? error.message : "Publiceringen misslyckades. Utkastet finns kvar.");
+      else if (error instanceof AdminApiError && error.status === 409 && error.currentCommit) {
+        setExpectedCommit(error.currentCommit);
+        setStatus("GitHub hade en nyare version. Utkastet är kvar och har synkroniserats – tryck Publicera igen.");
+      } else setStatus(error instanceof Error ? error.message : "Publiceringen misslyckades. Utkastet finns kvar.");
     } finally { setBusy(false); }
   }
 
