@@ -18,13 +18,13 @@
     "bookingTitle": "Kom förbi\nnär det passar.",
     "bookingText": "Vi arbetar främst med drop-in. Du kan också ringa i förväg för att boka en tid.",
     "galleryTitle": "Se skillnaden\ni detaljerna.",
-    "galleryText": "Före och efter, följt av glimtar från arbetet i salongen .",
+    "galleryText": "Före och efter, följt av glimtar från arbetet i salongen!",
     "beforeImage": "/images/gallery-before.png",
     "afterImage": "/images/gallery-after.png",
     "slides": [
       {
         "src": "/images/gallery-1.png",
-        "title": "Herrklippning med precision",
+        "title": "Herrklippning",
         "text": "Skarpa linjer och en form som sitter hela dagen."
       },
       {
