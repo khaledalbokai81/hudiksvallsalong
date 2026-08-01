@@ -3,6 +3,11 @@ name: CI
 on:
   push:
     branches: [main]
+    paths-ignore:
+      # The admin panel publishes validated content directly to these paths.
+      # Do not start code CI (or send failure notifications) for content edits.
+      - content/site-content.json
+      - public/images/admin/**
   pull_request:
     branches: [main]
 

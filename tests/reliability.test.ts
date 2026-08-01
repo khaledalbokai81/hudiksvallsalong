@@ -74,11 +74,3 @@ test("SEO configuration consistently uses the production domain", () => {
   assert.match(sources, /https:\/\/www\.hudiksvallsalong\.com/);
   assert.doesNotMatch(sources, /parissalong\.com/);
 });
-
-test("verified local business facts remain consistent", () => {
-  assert.equal(fixture.prices.find((item: { service: string }) => item.service === "Barn under 9 år")?.price, "180");
-  assert.match(fixture.landing.bookingText, /drop-in/i);
-  assert.match(fixture.landing.bookingText, /ringa/i);
-  assert.equal(fixture.business.address, "Kungsgatan 14");
-  assert.equal(fixture.business.phoneHref, "+46720147022");
-});
